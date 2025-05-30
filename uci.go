@@ -301,6 +301,14 @@ func (t *tree) AddSection(config, section, typ string) error {
 			t.configs[config] = cfg
 		}
 	}
+
+	if section == "" {
+		// support adding unnamed section
+		cfg.Add(newSection(typ, ""))
+		cfg.tainted = true
+		return nil
+	}
+
 	sec := cfg.Get(section)
 	if sec == nil {
 		cfg.Add(newSection(typ, section))
